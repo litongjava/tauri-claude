@@ -1,0 +1,88 @@
+name: Build Tauri App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build_macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Rust
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+    - name: Build Tauri App (x86_64)
+      run: |
+        cargo install tauri-cli
+        cargo tauri build
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: tauri-chatgpt_0.1.0_x64.dmg
+        path: target/release/bundle/dmg/tauri-chatgpt_0.1.0_x64.dmg
+
+  build_macos_m2:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Rust and target for ARM64
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        rustup target add aarch64-apple-darwin
+    - name: Build Tauri App (ARM64)
+      run: |
+        cargo install tauri-cli
+        cargo tauri build --target aarch64-apple-darwin
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: tauri-chatgpt_0.1.0_aarch64.dmg
+        path: target/aarch64-apple-darwin/release/bundle/dmg/tauri-chatgpt_0.1.0_aarch64.dmg
+
+  # build_ubuntu:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Install GTK+ 3
+  #     run: |
+  #      sudo apt-get update && sudo apt-get install -y libgtk-3-dev libsoup2.4-dev
+
+  #   - name: Install Rust
+  #     run: |
+  #       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  #       echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+  #   - name: Build Tauri App
+  #     run: |
+  #       cargo install tauri-cli
+  #       cargo tauri build
+  #   - name: Upload build artifact
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: tauri-chatgpt-ubuntu
+  #       path: target/release/bundle
+
+  build_windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Rust
+      run: |
+        choco install rustup.install
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        echo "$USERPROFILE\\.cargo\\bin" >> $GITHUB_PATH
+    - name: Build Tauri App
+      run: |
+        cargo install tauri-cli
+        cargo tauri build
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: tauri-chatgpt_0.1.0_x64_en-US.msi
+        path: target/release/bundle/msi/tauri-chatgpt_0.1.0_x64_en-US.msi
