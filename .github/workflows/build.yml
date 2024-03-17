@@ -24,8 +24,8 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: tauri-chatgpt_0.1.0_x64.dmg
-        path: target/release/bundle/dmg/tauri-chatgpt_0.1.0_x64.dmg
+        name: tauri-claude_0.1.0_x64.dmg
+        path: target/release/bundle/dmg/tauri-claude_0.1.0_x64.dmg
 
   build_macos_m2:
     runs-on: macos-latest
@@ -43,8 +43,8 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: tauri-chatgpt_0.1.0_aarch64.dmg
-        path: target/aarch64-apple-darwin/release/bundle/dmg/tauri-chatgpt_0.1.0_aarch64.dmg
+        name: tauri-claude_0.1.0_aarch64.dmg
+        path: target/aarch64-apple-darwin/release/bundle/dmg/tauri-claude_0.1.0_aarch64.dmg
 
   # build_ubuntu:
   #   runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
   #   - name: Upload build artifact
   #     uses: actions/upload-artifact@v3
   #     with:
-  #       name: tauri-chatgpt-ubuntu
+  #       name: tauri-claude-ubuntu
   #       path: target/release/bundle
 
   build_windows:
@@ -84,5 +84,5 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: tauri-chatgpt_0.1.0_x64_en-US.msi
-        path: target/release/bundle/msi/tauri-chatgpt_0.1.0_x64_en-US.msi
+        name: tauri-claude_0.1.0_x64_en-US.msi
+        path: target/release/bundle/msi/tauri-claude_0.1.0_x64_en-US.msi
